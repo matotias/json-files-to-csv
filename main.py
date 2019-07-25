@@ -49,10 +49,6 @@ with open('profiles.csv', 'w', encoding='utf-8') as profiles_file, open(
     profiles_writer = prepare_file(profiles_file, data, 'id')
     jobs_writer = prepare_file(jobs_file, data[0]['jobs'], 'profile_id')
 
-    #jobs_headers = get_all_headers(data[0]['jobs'])
-    #jobs_headers.insert(0, 'profile_id')
-    #jobs_writer = prepare_writer(jobs_file, jobs_headers)
-
     for index, row in enumerate(data, 1):
         row['id'] = index
         profiles_writer.writerow(row)
