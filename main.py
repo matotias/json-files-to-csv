@@ -39,17 +39,28 @@ def prepare_file(file, data, extra_header):
     return writer
 
 
+def merge_all_field_arrays(data, field):
+    output = []
+    for row in data:
+        for element in (row.get(field) or []):
+            output.append(element)
+    return output
+
+
 path = './files'
 data = merge_json_files(path)
 
 
 with open('profiles.csv', 'w', encoding='utf-8') as profiles_file, open(
         'jobs.csv', 'w', encoding='utf-8') as jobs_file, open(
-        'skills.csv', 'w', encoding='utf-8') as skills_file:
+        'skills.csv', 'w', encoding='utf-8') as skills_file, open(
+        'schools.csv', 'w', encoding='utf-8') as schools_file:
 
     profiles_writer = prepare_file(profiles_file, data, 'id')
     jobs_writer = prepare_file(jobs_file, data[0]['jobs'], 'profile_id')
     skills_writer = prepare_file(skills_file, data[0]['skills'], 'profile_id')
+    schools_writer = prepare_file(
+        schools_file, merge_all_field_arrays(data, 'schools'), 'profile_id')
 
     for index, row in enumerate(data, 1):
         row['id'] = index
@@ -57,6 +68,11 @@ with open('profiles.csv', 'w', encoding='utf-8') as profiles_file, open(
         for job in (row.get('jobs') or []):
             job['profile_id'] = index
             jobs_writer.writerow(job)
+
         for skill in (row.get('skills') or []):
             skill['profile_id'] = index
             skills_writer.writerow(skill)
+
+        for school in (row.get('schools') or []):
+            school['profile_id'] = index
+            schools_writer.writerow(school)
