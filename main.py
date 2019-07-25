@@ -54,7 +54,7 @@ with open('profiles.csv', 'w', encoding='utf-8') as profiles_file, open(
     for index, row in enumerate(data, 1):
         row['id'] = index
         profiles_writer.writerow(row)
-        for job in row['jobs']:
+        for job in (row.get('jobs') or []):
             job['profile_id'] = index
             jobs_writer.writerow(job)
         for skill in (row.get('skills') or []):
