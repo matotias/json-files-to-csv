@@ -44,10 +44,12 @@ data = merge_json_files(path)
 
 
 with open('profiles.csv', 'w', encoding='utf-8') as profiles_file, open(
-        'jobs.csv', 'w', encoding='utf-8') as jobs_file:
+        'jobs.csv', 'w', encoding='utf-8') as jobs_file, open(
+        'skills.csv', 'w', encoding='utf-8') as skills_file:
 
     profiles_writer = prepare_file(profiles_file, data, 'id')
     jobs_writer = prepare_file(jobs_file, data[0]['jobs'], 'profile_id')
+    skills_writer = prepare_file(skills_file, data[0]['skills'], 'profile_id')
 
     for index, row in enumerate(data, 1):
         row['id'] = index
@@ -55,3 +57,6 @@ with open('profiles.csv', 'w', encoding='utf-8') as profiles_file, open(
         for job in row['jobs']:
             job['profile_id'] = index
             jobs_writer.writerow(job)
+        for skill in (row.get('skills') or []):
+            skill['profile_id'] = index
+            skills_writer.writerow(skill)
