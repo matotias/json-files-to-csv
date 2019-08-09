@@ -53,11 +53,13 @@ def merge_all_field_arrays(data, field):
 path = './files'
 data = merge_json_files(path)
 
+if not os.path.exists('output'):
+    os.makedirs('output')
 
-with open('profiles.csv', 'w', encoding='utf-8') as profiles_file, open(
-        'jobs.csv', 'w', encoding='utf-8') as jobs_file, open(
-        'skills.csv', 'w', encoding='utf-8') as skills_file, open(
-        'schools.csv', 'w', encoding='utf-8') as schools_file:
+with open('output/profiles.csv', 'w', encoding='utf-8') as profiles_file, open(
+        'output/jobs.csv', 'w', encoding='utf-8') as jobs_file, open(
+        'output/skills.csv', 'w', encoding='utf-8') as skills_file, open(
+        'output/schools.csv', 'w', encoding='utf-8') as schools_file:
 
     profiles_writer = prepare_file(profiles_file, data, 'id')
     jobs_writer = prepare_file(jobs_file, data[0]['jobs'], 'profile_id')
