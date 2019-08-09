@@ -26,8 +26,11 @@ def merge_json_files(path):
 
 
 def prepare_writer(file, headers):
-    writer = csv.DictWriter(file, fieldnames=headers,
-                            lineterminator='\n')
+    writer = csv.DictWriter(file,
+                            fieldnames=headers,
+                            lineterminator='\n',
+                            quoting=csv.QUOTE_NONNUMERIC,
+                            delimiter=",")
     writer.writeheader()
     return writer
 
